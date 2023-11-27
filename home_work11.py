@@ -45,8 +45,11 @@ class Birthday(Field):
     @Field.value.setter
     
     def value(self, value: str):
-        self.__value = datetime.strptime(value, '%Y.%m.%d').date()
-    
+        try:
+            date = datetime.strptime(value, '%Y.%m.%d').date()
+            self.__value = date
+        except ValueError:
+            raise ValueError("Некоректний формат дати. Використовуйте формат 'YYYY.MM.DD'")
 class Record:
     def __init__(self, name, birthday=None):
         self.name = Name(name)
